@@ -1,0 +1,43 @@
+screen = pg.display.set_mode(([WIDTH, HEIGHT]), pg.RESIZABLE)
+
+
+playing = True
+clock = pg.time.Clock()
+
+while playing:
+   for event in pg.event.get():
+      if event.type == pg.QUIT:
+         playing = False
+      elif event.type == pg.KEYDOWN:
+         if event.key == pg.K_LEFT:
+            x_speed = -3
+         elif event.key == pg.K_RIGHT:
+            x_speed = 3
+      elif event.type == pg.KEYUP:
+         if event.key == pg.K_LEFT or event.key == pg.K_RIGHT:
+            x_speed = 0
+
+
+  # game logic
+   x_loc = x_speed
+   if x_loc <= 0:
+      x_loc = 0
+   elif x_loc >= WIDTH:
+      x_loc == WIDTH - 300
+
+  # clear the screen
+   screen.fill(day_night)  
+
+
+# draw code should go here
+
+
+   # update the screen with new drawings
+   pg.display.flip()
+
+
+   # limit to "FPS" frames per second
+   clock.tick(FPS)
+
+
+pg.quit()
