@@ -40,50 +40,50 @@ class Player(pg.sprite.Sprite):
 
         if keys[pg.K_LEFT]:
             self.rect.x += -self.player_speed
-            self.vy = 0
         elif keys[pg.K_RIGHT]:
             self.rect.x += self.player_speed
-            self.vy = 0
-        elif keys[pg.K_UP]:
+        # else:
+        #     self.rect.x = 0
+        # print(self.rect.x)
+        if keys[pg.K_UP]:
             self.rect.y += -self.player_speed
-            self.vx = 0
         elif keys[pg.K_DOWN]:
             self.rect.y += self.player_speed
-        self.rect.x += self.vx
-        self.collide_with_wall('x')
+        
+        # print(self.rect.y)
+        # else:
+        #     self.rect.y = 0
+
+        # self.rect.x += self.vx
+        self.collide_with_wall(self.rect.x)
 
         # self.rect.y += self.vy
-        # self.rect.x += self.x
-        # self.rect.y += self.y
-        # self.collide_with_wall('y')
-       
+        self.collide_with_wall(self.rect.y)
+    
 
     def collide_with_wall(self, dir):
         if dir == 'x':
-            hits = pg.sprite.spritecollide(self.game, self.game.wall_sprites, False)
+            hits = pg.sprite.spritecollide(self, self.game.wall_group, False)
             if hits:
                 if self.vx > 0:
-                    self.x = hits[0].rect.left - self.rect.width
-                if self.vy < 0:
-                    self.x = hits[0].rect.right
+                    self.rect.right = hits[0].rect.left
+                elif self.vx < 0:
+                    self.rect.left = hits[0].rect.right
                 self.vx = 0
-                self.rect.x = self.x
+
         if dir == 'y':
-            hits = pg.sprite.spritecollide(self.game, self.game.wall_sprites, False)
+            hits = pg.sprite.spritecollide(self, self.game.wall_group, False)
             if hits:
                 if self.vy > 0:
-                    self.y = hits[0].rect.top - self.rect.height
-                if self.vy < 0:
-                    self.y = hits[0].rect.bottom
-                self.vx = 0
-                self.rect.y = self.y
-    
-    
+                    self.rect.bottom = hits[0].rect.top
+                elif self.vy < 0:
+                    self.rect.top = hits[0].rect.bottom
+                self.vy = 0
+
 class Wall(pg.sprite.Sprite):
     def __init__(self, x, y, display, image):
         pg.sprite.Sprite. __init__(self)
 
-        self.self = self
         self.image = image
         self.rect = self.image.get_rect()
         self.rect.x = x
