@@ -50,7 +50,28 @@ GRAVITY = 1
 #     '1111111111111111111111111'
 # ]
 
-LAYOUT = [
+# LAYOUT = [
+#     '1111111111111111111111111',
+#     '1gggggggggggggggggggggggg1',
+#     '1gggggggggggggggggggggggg1',
+#     '1gggggggggggggggggggggggg1',
+#     '1gggggggggggggggggggggggg1',
+#     '1gggggggggggggggggggggggg1',
+#     '1gggggggggggggggggggggggg1',
+#     '1gggggggggggggggggggggggg1',
+#     '1gggggggggggggggggggggggg1',
+#     '1gggggggggggggggggggggggg1',
+#     '1gggggggggggggggggggggggg1',
+#     '1gggggggggggggggggggggggg1',
+#     '1gggggggggggggggggggggggg1',
+#     '1gggggggggggggggggggggggg1',
+#     '1gggggggggggggggggggggggg1',
+#     '1gggggggggggggggggggggggg1',
+#     '1111111111111111111111111'
+# ]
+
+LAYOUT =[
+    '1111111111111111111111111',
     '1111111111111111111111111',
     '1                       1',
     '1                       1',
@@ -66,8 +87,12 @@ LAYOUT = [
     '1                       1',
     '1                       1',
     '1                       1',
+    '1111111111111111111111111',
     '1111111111111111111111111'
+    '1111111111111111111111111',
+    '1111111111111111111111111',
 ]
+
 # print(len(LAYOUT[0]), len(LAYOUT))
 BRICK_WIDTH = 50
 big_width = 200
