@@ -18,16 +18,16 @@ class Game:
       self.wall_group = pg.sprite.Group()
       # self.char = []
 
-      self.explosion_sheet = SpriteSheet("images/explosion.png")
-      self.tilemap = SpriteSheet("images/tilemap.png")
-      self.char = SpriteSheet("images/spritesheet_characters.png")
+      self.explosion_sheet = SpriteSheet("Sprites/explosion.png")
+      self.tilemap = SpriteSheet("Sprites/tilemap.png")
+      self.char = SpriteSheet("Sprites/spritesheet_characters.png")
 
       self.load_images()
 
    def load_images(self):
 
 
-      # bow_img = self.tilemap.get_image(16*11.5, 16*9.5, 16, 16)
+      self.bow_img = self.tilemap.get_image(16*11.5, 16*9.5, 16, 16)
       # self.player_img = self.character.get_image(57, 43, 50, 43)
       # self.player_img.set_colorkey(BLACK)
       # self.player  = Player(self.screen, 57, 43, self.char)
@@ -36,15 +36,14 @@ class Game:
       # ground_img = self.tilemap.get_image(5*11,9*6, 15, 15)
       # image = explosion_sheet.get_image(x_loc, y_loc, 64, 64)
       # image.set_colorkey(BLACK) # erases that color
-      # bow_img.set_colorkey(BLACK)
+      self.bow_img.set_colorkey(BLACK)
       # player_img.set_colorkey(BLACK)
       # zombie_img.set_colorkey(BLACK)
       # # explosion_list.append(image)
          # explotsion_list[0]
       
-
       '''load and/or get images'''
-      self.tilemap = SpriteSheet("images/tilemap.png")
+      self.tilemap = SpriteSheet("Sprites/tilemap.png")
       self.grass_img = self.tilemap.get_image(16, 1, 16, 16, 3, 3)
       self.grass_img.set_colorkey(BLACK)
       self.player_img = self.char.get_image(57, 43, 50, 43)
@@ -60,6 +59,7 @@ class Game:
       '''call run() method'''
       self.wall_group = pg.sprite.Group()
       self.all_sprites = pg.sprite.Group()
+      self.bow = pg.sprite.Group()
   
       # player = Player()
 
@@ -72,7 +72,14 @@ class Game:
                block = Wall(x, y, self.screen, self.wall_img)
                self.wall_group.add(block)
                self.all_sprites.add(block)
-      self.player = Player(self.screen, 57, 43, self.player_img, self)
+            elif tile == ' ':
+               grass = Wall(x, y, self.screen, self.grass_img)
+               self.all_sprites.add(grass)
+            # elif tile == 'a':
+      arrow = Wall(300, 200, self.screen, self.bow_img)
+      self.bow.add(arrow)
+               # self.wall_group.add(arrow)
+      self.player = Player(self.screen, 200, 200, self.player_img, self)
       self.all_sprites.add(self.player)
       self.run()
 
@@ -85,6 +92,7 @@ class Game:
       '''fill the screen, draw the objects, and flip'''
       self.screen.fill(WHITE)
       self.all_sprites.draw(self.screen)
+      self.bow.draw(self.screen)
       # self.wall_group.draw(self.screen)
       pg.display.flip()
    def events(self):
