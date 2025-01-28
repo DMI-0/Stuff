@@ -18,9 +18,9 @@ class Game:
       self.wall_group = pg.sprite.Group()
       # self.char = []
 
-      self.explosion_sheet = SpriteSheet("Sprites/explosion.png")
-      self.tilemap = SpriteSheet("Sprites/tilemap.png")
-      self.char = SpriteSheet("Sprites/spritesheet_characters.png")
+      self.explosion_sheet = SpriteSheet("images/explosion.png")
+      self.tilemap = SpriteSheet("images/tilemap.png")
+      self.char = SpriteSheet("images/spritesheet_characters.png")
 
       self.load_images()
 
@@ -44,12 +44,12 @@ class Game:
       
 
       '''load and/or get images'''
-      self.tilemap = SpriteSheet("Sprites/tilemap.png")
+      self.tilemap = SpriteSheet("images/tilemap.png")
       self.grass_img = self.tilemap.get_image(16, 1, 16, 16, 3, 3)
       self.grass_img.set_colorkey(BLACK)
       self.player_img = self.char.get_image(57, 43, 50, 43)
       self.player_img.set_colorkey(BLACK)
-      self.wall_img = self.tilemap.get_image(16*6, 16*11, 16, 16, 3, 3)
+      self.wall_img = self.tilemap.get_image(16*6.4, 16*11, 16, 16, 4, 5)
       self.wall_img.set_colorkey(BLACK)
 
       # self.player = self.character.get_image(57, 43, 50, 43)
