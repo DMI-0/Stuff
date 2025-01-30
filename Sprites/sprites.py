@@ -15,7 +15,7 @@ class SpriteSheet():
         return image
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, display, x, y, img, game):
+    def __init__(self, display, x, y, img, game):# left_img, right_img):
         pg.sprite.Sprite.__init__(self)
         self.display = display
         self.image = img
@@ -26,6 +26,8 @@ class Player(pg.sprite.Sprite):
         self.vx = 0
         self.vy = 0
         self.player_speed = 5
+        # self.left = left_img
+        # self.right = right_img
 
     def update(self):
         keys = pg.key.get_pressed()
@@ -45,7 +47,7 @@ class Player(pg.sprite.Sprite):
         self.collide_with_wall('x')
 
         self.rect.y += self.vy
-        print(f'This is the x: {self.rect.x} and this is the y: {self.rect.y}')
+        # print(f'This is the x: {self.rect.x} and this is the y: {self.rect.y}')
         self.collide_with_wall('y')
         self.collide_with_obj('y')
 
@@ -69,7 +71,7 @@ class Player(pg.sprite.Sprite):
 
     def collide_with_obj(self, dir):
         if dir == 'x':
-            hits = pg.sprite.spritecollide(self, self.game.bow, False)
+            hits = pg.sprite.spritecollide(self, self.game.obj_group, False)
             if hits:
                 self.rect.right = hits[0].rect.left
                 self.rect.left = hits[0].rect.right
@@ -78,7 +80,7 @@ class Player(pg.sprite.Sprite):
 # y 469 and 107
 # x 64 600
         elif dir == 'y':
-            hits = pg.sprite.spritecollide(self, self.game.bow, False)
+            hits = pg.sprite.spritecollide(self, self.game.obj_group, False)
             if hits:
                 self.rect.bottom = hits[0].rect.top
                 self.rect.top = hits[0].rect.bottom
