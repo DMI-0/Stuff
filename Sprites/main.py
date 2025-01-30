@@ -4,7 +4,7 @@ from sprites import SpriteSheet
 from sprites import Player
 from sprites import Wall
 
-
+# char width and height: 1474 and 74
 
 brick_list = []
 class Game:
@@ -18,9 +18,10 @@ class Game:
       self.wall_group = pg.sprite.Group()
       # self.char = []
 
-      self.explosion_sheet = SpriteSheet("images/explosion.png")
-      self.tilemap = SpriteSheet("images/tilemap.png")
-      self.char = SpriteSheet("images/spritesheet_characters.png")
+      self.explosion_sheet = SpriteSheet("Sprites/explosion.png")
+      self.tilemap = SpriteSheet("Sprites/tilemap.png")
+      self.char = SpriteSheet("Sprites/spritesheet_characters.png")
+      self.char2 = SpriteSheet("Sprites/new_chars.png")
 
       self.load_images()
 
@@ -43,33 +44,41 @@ class Game:
          # explotsion_list[0]
       
       '''load and/or get images'''
-      self.tilemap = SpriteSheet("images/tilemap.png")
-      self.grass_img = self.tilemap.get_image(16, 1, 16, 16, 3, 3) # grass with flowers
+      self.tilemap = SpriteSheet("Sprites/tilemap.png")
+      self.grass_img = self.tilemap.get_image(16, 1, 16, 16, 2.5, 2.5) # grass with flowers (green)
       self.grass_img.set_colorkey(BLACK)
+      self.grass_plain = self.tilemap.get_image(1, 1, 16, 16, 2.5, 2.5) # grass without flowers
+      self.grass_plain.set_colorkey(BLACK)
+      self.grass_flower = self.tilemap.get_image(35, 1, 16, 16, 2.5, 2.5) # grass with flowers (sunflower)
+      self.grass_flower.set_colorkey(BLACK)
       self.player_img = self.char.get_image(57, 43, 50, 43)
       self.player_img.set_colorkey(BLACK)
       self.wall_img = self.tilemap.get_image(16*6.4, 16*11, 16, 16, 4, 5)
       self.wall_img.set_colorkey(BLACK)
       self.coin_img = self.tilemap.get_image(16*9.5, 16*7.5, 16, 16, 2, 2)
       self.coin_img.set_colorkey(BLACK)
-      self.ground_img = self.tilemap.get_image(16, 16, 16, 16, 3, 3) # Grass with dirt center
+      self.ground_img = self.tilemap.get_image(16, 16, 16, 16, 2.5, 2.5) # Grass with dirt center
       self.ground_img.set_colorkey(BLACK)
       
-      self.grass_corner_left = self.tilemap.get_image(1, 16, 16, 16, 3, 3) # upper left side
+      self.grass_corner_left = self.tilemap.get_image(1, 16, 16, 16, 2.5, 2.5) # upper left side
       self.grass_corner_left.set_colorkey(BLACK)
-      self.grass_left_side = self.tilemap.get_image(1, 34, 16, 16, 3, 3) # middle left side
+      self.grass_left_side = self.tilemap.get_image(1, 34, 16, 16, 2.5, 2.5) # middle left side
       self.grass_left_side.set_colorkey(BLACK)
-      self.grass_lower_left = self.tilemap.get_image(1, 52, 16, 16, 3, 3) # lower left corner
+      self.grass_lower_left = self.tilemap.get_image(1, 52, 16, 16, 2.5, 2.5) # lower left corner
       self.grass_lower_left.set_colorkey(BLACK)
-      self.grass_middle = self.tilemap.get_image(16, 52, 16, 16, 3, 3) # middle lower grass
-      self.grass_middle.set_colorkey(BLACK)
+      self.grass_middle_lower = self.tilemap.get_image(16, 52, 16, 16, 2.5, 2.5) # middle lower grass
+      self.grass_middle_lower.set_colorkey(BLACK)
       
-      self.grass_lower_right = self.tilemap.get_image(34, 52, 16, 16, 3, 3) # right lower grass
+      self.grass_lower_right = self.tilemap.get_image(34, 52, 16, 16, 2.5, 2.5) # right lower grass
       self.grass_lower_right.set_colorkey(BLACK)
-      self.grass_corner_right = self.tilemap.get_image(34, 16, 16, 16, 3, 3) # right upper side
+      self.grass_corner_right = self.tilemap.get_image(34, 16, 16, 16, 2.5, 2.5) # right upper side
       self.grass_corner_right.set_colorkey(BLACK)
-      self.grass = self.tilemap.get_image(34, 34, 16, 16, 3, 3) # Right side middle 
-      self.dirt = self.tilemap.get_image(16, 34, 16, 16, 3, 3) # dirt block
+      self.grass_middle_right = self.tilemap.get_image(34, 34, 16, 16, 2.5, 2.5) # Right side middle 
+      self.grass_middle_right.set_colorkey(BLACK)
+
+      self.grass_mid_mid = self.tilemap.get_image(16, 16, 16, 16, 2.5, 2.5)
+      self.grass_mid_mid.set_colorkey(BLACK)
+      self.dirt = self.tilemap.get_image(16, 34, 16, 16, 2.5, 2.5) # dirt block
       self.dirt.set_colorkey(BLACK)
 
 
@@ -94,18 +103,42 @@ class Game:
                block = Wall(x, y, self.screen, self.wall_img)
                self.wall_group.add(block)
                self.all_sprites.add(block)
-            elif tile == '0':
+            elif tile == ' ':
+               plain = Wall(x, y, self.screen, self.grass_plain)
+               self.all_sprites.add(plain)
+            elif tile == 'f':
+               flower = Wall(x, y, self.screen, self.grass_flower)
+               self.all_sprites.add(flower)
+            elif tile == 'g':
                grass = Wall(x, y, self.screen, self.grass_img)
                self.all_sprites.add(grass)
-            # elif tile == '2':
-            #    ground = Wall(x, y, self.screen, self.grass)
-            #    self.all_sprites.add(ground)    
-            elif tile == 'l':
-               upper_left = Wall(x, y, self.screen, self.grass_corner_right)   
-               self.all_sprites.add(upper_left)
+            elif tile == 'r':
+               upper_right = Wall(x, y, self.screen, self.grass_corner_right)   
+               self.all_sprites.add(upper_right)
+            elif tile == '4':
+               middle_right = Wall(x, y, self.screen, self.grass_middle_right)  
+               self.all_sprites.add(middle_right)
+            elif tile == 'R':
+               lower_right = Wall(x, y, self.screen, self.grass_lower_right)
+               self.all_sprites.add(lower_right)  
             elif tile == 'm':
-               middle = Wall(x, y, self.screen, self.dirt)   
+               middle = Wall(x, y, self.screen, self.grass_mid_mid)   
                self.all_sprites.add(middle)
+            elif tile == '3':
+               middle_mid = Wall(x, y, self.screen, self.dirt) 
+               self.all_sprites.add(middle_mid)
+            elif tile == 'M':
+               lower_mid = Wall(x, y, self.screen, self.grass_middle_lower) 
+               self.all_sprites.add(lower_mid)  
+            elif tile == 'l':
+               upper_left = Wall(x, y, self.screen, self.grass_corner_left)
+               self.all_sprites.add(upper_left)
+            elif tile == '2':
+               middle_left = Wall(x, y, self.screen, self.grass_left_side)
+               self.all_sprites.add(middle_left)   
+            elif tile == 'L':
+               lower_left = Wall(x, y, self.screen, self.grass_lower_left)
+               self.all_sprites.add(lower_left)
             # elif tile == 'a':
       arrow = Wall(300, 200, self.screen, self.coin_img)
       self.obj_group.add(arrow)
