@@ -15,7 +15,7 @@ class SpriteSheet():
         return image
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, display, right, left, x, y, img, game):# left_img, right_img):
+    def __init__(self, display, left, right, x, y, img, game):# left_img, right_img):
         pg.sprite.Sprite.__init__(self)
         self.display = display
         self.image = img
@@ -45,7 +45,7 @@ class Player(pg.sprite.Sprite):
         if keys[pg.K_LEFT]:
             self.now = pg.time.get_ticks()
             if self.now - self.last > self.delay:
-                self.current_frame = (self.current_frame +1) % len(self.left)
+                self.current_frame = (self.current_frame + 1) % len(self.left)
                 self.image = self.left[self.current_frame]
                 self.last = self.now
             self.vx = -self.player_speed
@@ -142,3 +142,27 @@ class Enemy(pg.sprite.Sprite):
         self.vx = 0
         self.vy = 0
         self.player_speed = 5
+
+class Camera:
+    def __init__(self, width, height):
+        self.camera = pg.Rect(0, 0, width, height)
+        self.width = width
+        self.height = height
+    def get_view(self, sprite_object):
+        # all sprite object will be moved on camera position
+        return sprite_object.rect.move(self.camera.topleft)
+    def update(self, target):
+        # shift map in opp direction
+        # add half window size
+        x = -target.rect.x + WIDTH//2
+        y = -target.rect.y + HEIGHT//2
+
+        # stop scrolling at end of the tilemap
+        # if the target moves too far left, or up, make x/y stay = 0
+        x = min(0, x)
+        y = min(0, y)
+        # if the target moves too far right or down make the target
+        # at the width of the tilemap minus the of the window
+        x = max(-1 * (self.width - WIDTH), x)
+        y = max(-1 * (self.height - HEIGHT), y)
+        self.camera = pg.Rect(x, y, self.width, self.height)
