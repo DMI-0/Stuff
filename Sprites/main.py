@@ -3,6 +3,7 @@ from settings import *
 from sprites import SpriteSheet
 from sprites import Player
 from sprites import Wall
+from sprites import Camera
 
 # char width and height: 1474 and 74
 
@@ -18,11 +19,11 @@ class Game:
       self.wall_group = pg.sprite.Group()
       # self.char = []
 
-      self.explosion_sheet = SpriteSheet("Sprites/explosion.png")
-      self.tilemap = SpriteSheet("Sprites/tilemap.png")
-      self.char = SpriteSheet("Sprites/spritesheet_characters.png")
-      self.char2 = SpriteSheet("Sprites/new_chars.png")
-      self.ren = SpriteSheet("Sprites/Ren.png")
+      self.explosion_sheet = SpriteSheet("explosion.png")
+      self.tilemap = SpriteSheet("tilemap.png")
+      self.char = SpriteSheet("spritesheet_characters.png")
+      self.char2 = SpriteSheet("new_chars.png")
+      self.ren = SpriteSheet("Ren.png")
 
       self.load_images()
 
@@ -45,7 +46,7 @@ class Game:
          # explotsion_list[0]
       
       '''load and/or get images'''
-      self.tilemap = SpriteSheet("Sprites/tilemap.png")
+      self.tilemap = SpriteSheet("tilemap.png")
       self.grass_img = self.tilemap.get_image(16, 1, 16, 16, 2.5, 2.5) # grass with flowers (green)
       self.grass_img.set_colorkey(BLACK)
       self.grass_plain = self.tilemap.get_image(1, 1, 16, 16, 2.5, 2.5) # grass without flowers
@@ -56,8 +57,18 @@ class Game:
       self.player_img.set_colorkey(BLACK)
       self.Ren_img = self.ren.get_image(145, 195, 48, 48) # forward 1
       self.Ren_img.set_colorkey(BLACK)
-      self.Ren_left = self.ren.get_image(145, 240, 48, 48) # left
-      self.Ren_left.set_colorkey(BLACK)
+
+      self.right = []
+      self.left = []
+
+      for i in range(3):
+         locx =  i * 48
+         locy = 48*6
+         self.Ren_left = self.ren.get_image(locx, locy, 48, 48) # left
+         self.Ren_left.set_colorkey(BLACK)
+         self.left.append(self.Ren_left)
+         print(self.left)
+
 
       # self.Ren_img.set_colorkey(BLACK)
       self.wall_img = self.tilemap.get_image(16*6.4, 16*11, 16, 16, 4, 5)
@@ -88,8 +99,7 @@ class Game:
       self.dirt = self.tilemap.get_image(16, 34, 16, 16, 2.5, 2.5) # dirt block
       self.dirt.set_colorkey(BLACK)
 
-      self.right = []
-      self.left = []
+
 
 
       # self.player = self.character.get_image(57, 43, 50, 43)
@@ -153,19 +163,24 @@ class Game:
       arrow = Wall(300, 200, self.screen, self.coin_img)
       self.obj_group.add(arrow)
                # self.wall_group.add(arrow)
-      self.player = Player(self.screen,self.left, self.right,200, 200, self.Ren_img, self)
+      self.player = Player(self.screen, self.left, self.right, 200, 200, self.Ren_img, self)
       self.all_sprites.add(self.player)
-      self.run()
 
+      self.game_viewer = Camera(MAP_WIDTH, MAP_HEIGHT)
+
+      self.run()
 
    def  update(self):
       '''run all updates'''
       # self.player.collide_with_wall()
       self.all_sprites.update()
+      self.game_viewer.update(self.player)
    def draw(self):
       '''fill the screen, draw the objects, and flip'''
       self.screen.fill(WHITE)
-      self.all_sprites.draw(self.screen)
+      for sprite in self.all_sprites:
+         self.screen.blit(sprite.image, self.game_viewer.get_view(sprite))
+      # self.all_sprites.draw(self.screen)
       self.obj_group.draw(self.screen)
       # self.wall_group.draw(self.screen)
       pg.display.flip()
@@ -209,9 +224,9 @@ while game.running:
 
 pg.quit()
 
-# explosion_sheet = SpriteSheet("Sprites/explosion.png")
-# tilemap = SpriteSheet("Sprites/tilemap.png")
-# character = SpriteSheet("Sprites/spritesheet_characters.png")
+# explosion_sheet = SpriteSheet("explosion.png")
+# tilemap = SpriteSheet("tilemap.png")
+# character = SpriteSheet("spritesheet_characters.png")
 # explosion_list = []
 # tilemap_list = []
 # player_list = []
