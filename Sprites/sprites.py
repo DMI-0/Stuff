@@ -15,7 +15,7 @@ class SpriteSheet():
         return image
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, display, x, y, img, game):# left_img, right_img):
+    def __init__(self, display, right, left, x, y, img, game):# left_img, right_img):
         pg.sprite.Sprite.__init__(self)
         self.display = display
         self.image = img
@@ -26,6 +26,15 @@ class Player(pg.sprite.Sprite):
         self.vx = 0
         self.vy = 0
         self.player_speed = 5
+        self.x = x
+        self.y = y
+        self.left = left
+        self.right = right
+        self.current_frame = 0
+        self.delay = 70
+        self.last = pg.time.get_ticks()
+
+        self.run = None # -1 is left and 1 is right
         # self.left = left_img
         # self.right = right_img
 
@@ -34,13 +43,37 @@ class Player(pg.sprite.Sprite):
         self.vx, self.vy = 0, 0  
 
         if keys[pg.K_LEFT]:
+            self.now = pg.time.get_ticks()
+            if self.now - self.last > self.delay:
+                self.current_frame = (self.current_frame +1) % len(self.left)
+                self.image = self.left[self.current_frame]
+                self.last = self.now
             self.vx = -self.player_speed
+            self.x
+            self.run = -1
+
+
         elif keys[pg.K_RIGHT]:
+            self.now = pg.time.get_ticks()
+            if self.now - self.last > self.delay:
+                self.current_frame = (self.current_frame +1) % len(self.right)
+                self.image = self.right[self.current_frame]
+                self.last = self.now
             self.vx = self.player_speed
+            self.run = 1
         if keys[pg.K_UP]:
             self.vy = -self.player_speed
         elif keys[pg.K_DOWN]:
             self.vy = self.player_speed
+
+        else:
+            self.vx = 0
+            if self.run == -1:
+                self.image = self.left
+            elif self.run == 1:
+                self.image = self.right
+            self.run = None
+     
 
         self.rect.x += self.vx
         self.collide_with_obj('x')
