@@ -22,6 +22,7 @@ class Game:
       self.tilemap = SpriteSheet("Sprites/tilemap.png")
       self.char = SpriteSheet("Sprites/spritesheet_characters.png")
       self.char2 = SpriteSheet("Sprites/new_chars.png")
+      self.ren = SpriteSheet("Sprites/Ren.png")
 
       self.load_images()
 
@@ -53,6 +54,12 @@ class Game:
       self.grass_flower.set_colorkey(BLACK)
       self.player_img = self.char.get_image(57, 43, 50, 43)
       self.player_img.set_colorkey(BLACK)
+      self.Ren_img = self.ren.get_image(145, 195, 48, 48) # forward 1
+      self.Ren_img.set_colorkey(BLACK)
+      self.Ren_left = self.ren.get_image(145, 240, 48, 48) # left
+      self.Ren_left.set_colorkey(BLACK)
+
+      # self.Ren_img.set_colorkey(BLACK)
       self.wall_img = self.tilemap.get_image(16*6.4, 16*11, 16, 16, 4, 5)
       self.wall_img.set_colorkey(BLACK)
       self.coin_img = self.tilemap.get_image(16*9.5, 16*7.5, 16, 16, 2, 2)
@@ -80,6 +87,9 @@ class Game:
       self.grass_mid_mid.set_colorkey(BLACK)
       self.dirt = self.tilemap.get_image(16, 34, 16, 16, 2.5, 2.5) # dirt block
       self.dirt.set_colorkey(BLACK)
+
+      self.right = []
+      self.left = []
 
 
       # self.player = self.character.get_image(57, 43, 50, 43)
@@ -143,7 +153,7 @@ class Game:
       arrow = Wall(300, 200, self.screen, self.coin_img)
       self.obj_group.add(arrow)
                # self.wall_group.add(arrow)
-      self.player = Player(self.screen, 200, 200, self.player_img, self)
+      self.player = Player(self.screen,self.left, self.right,200, 200, self.Ren_img, self)
       self.all_sprites.add(self.player)
       self.run()
 
