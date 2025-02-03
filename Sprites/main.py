@@ -60,15 +60,25 @@ class Game:
 
       self.right = []
       self.left = []
+      self.down = []
 
-      for i in range(3):
+      for i in range(3, 6):
          locx =  i * 48
-         locy = 48*6
+         locy = 48*5
          self.Ren_left = self.ren.get_image(locx, locy, 48, 48) # left
          self.Ren_left.set_colorkey(BLACK)
          self.left.append(self.Ren_left)
          print(self.left)
 
+      for i in range(3, 6):
+         locx =  i * 48
+         locy = 48*4
+         self.Ren_right = self.ren.get_image(locx, locy, 48, 48) # right
+         self.Ren_right.set_colorkey(BLACK)
+         self.right = pg.transform.flip(self.left, True, False)
+         self.right.append(self.Ren_right)
+         # self.right
+         # print(self.right)
 
       # self.Ren_img.set_colorkey(BLACK)
       self.wall_img = self.tilemap.get_image(16*6.4, 16*11, 16, 16, 4, 5)
