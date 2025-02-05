@@ -15,21 +15,22 @@ class SpriteSheet():
         return image
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, display, left, right, x, y, img, game):# left_img, right_img):
+    def __init__(self, display, left, right, up, down, x, y, game):# left_img, right_img):
         pg.sprite.Sprite.__init__(self)
         self.display = display
-        self.image = img
-        self.rect = self.image.get_rect()
-        self.rect.x = x     
-        self.rect.y = y 
+
         self.game = game
         self.vx = 0
         self.vy = 0
         self.player_speed = 5
-        self.x = x
-        self.y = y
         self.left = left
         self.right = right
+        self.up = up
+        self.down = down
+        self.image = self.down[0]
+        self.rect = self.image.get_rect()
+        self.rect.x = x     
+        self.rect.y = y 
         self.current_frame = 0
         self.delay = 70
         self.last = pg.time.get_ticks()
@@ -49,9 +50,7 @@ class Player(pg.sprite.Sprite):
                 self.image = self.left[self.current_frame]
                 self.last = self.now
             self.vx = -self.player_speed
-            self.x
             self.run = -1
-
 
         elif keys[pg.K_RIGHT]:
             self.now = pg.time.get_ticks()
@@ -61,18 +60,38 @@ class Player(pg.sprite.Sprite):
                 self.last = self.now
             self.vx = self.player_speed
             self.run = 1
+       
         if keys[pg.K_UP]:
+            self.now = pg.time.get_ticks()
+            if self.now - self.last > self.delay:
+                self.current_frame = (self.current_frame +1) % len(self.up)
+                self.image = self.up[self.current_frame]
+                self.last = self.now
             self.vy = -self.player_speed
+            self.run = -2
+       
         elif keys[pg.K_DOWN]:
+            self.now = pg.time.get_ticks()
+            if self.now - self.last > self.delay:
+                self.current_frame = (self.current_frame +1) % len(self.down)
+                self.image = self.down[self.current_frame]
+                self.last = self.now
             self.vy = self.player_speed
+            self.run = 2
 
-        else:
+
+        elif self.vx == 0 and self.vy == 0:
             self.vx = 0
             if self.run == -1:
-                self.image = self.left
+                self.image = self.left[0]
             elif self.run == 1:
-                self.image = self.right
+                self.image = self.right[0]
+            elif self.run == 2:
+                self.image = self.down[0]
+            elif self.run == -2:
+                self.image = self.up[0]
             self.run = None
+
      
 
         self.rect.x += self.vx
@@ -80,7 +99,6 @@ class Player(pg.sprite.Sprite):
         self.collide_with_wall('x')
 
         self.rect.y += self.vy
-        # print(f'This is the x: {self.rect.x} and this is the y: {self.rect.y}')
         self.collide_with_wall('y')
         self.collide_with_obj('y')
 
@@ -99,7 +117,6 @@ class Player(pg.sprite.Sprite):
                     self.rect.bottom = hits[0].rect.top
                 elif self.vy < 0:  
                     self.rect.top = hits[0].rect.bottom
-     
 
 
     def collide_with_obj(self, dir):
@@ -108,8 +125,11 @@ class Player(pg.sprite.Sprite):
             if hits:
                 self.rect.right = hits[0].rect.left
                 self.rect.left = hits[0].rect.right
-                hits[0].rect.x = random.randint(64, 600)
-                hits[0].rect.y = random.randint(107, 469)
+                font = pg.font.SysFont("TimesNewRoman", 35)
+                score_text = font.render("Coin: ", True, WHITE)
+                self.display.blit(score_text, (WIDTH-100, HEIGHT-100))
+                hits[0].rect.x = -10
+                hits[0].rect.y = -10
 # y 469 and 107
 # x 64 600
         elif dir == 'y':
@@ -117,8 +137,8 @@ class Player(pg.sprite.Sprite):
             if hits:
                 self.rect.bottom = hits[0].rect.top
                 self.rect.top = hits[0].rect.bottom
-                hits[0].rect.x = random.randint(64, 600)
-                hits[0].rect.y = random.randint(107, 469)
+                hits[0].rect.x = -10
+                hits[0].rect.y = -10
 class Wall(pg.sprite.Sprite):
     def __init__(self, x, y, display, image):
         pg.sprite.Sprite.__init__(self)
