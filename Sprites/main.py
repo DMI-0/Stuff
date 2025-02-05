@@ -17,6 +17,7 @@ class Game:
       self.running = True
       self.all_sprites = pg.sprite.Group()
       self.wall_group = pg.sprite.Group()
+      self.obj_group = pg.sprite.Group()
       # self.char = []
 
       self.explosion_sheet = SpriteSheet("explosion.png")
@@ -55,30 +56,49 @@ class Game:
       self.grass_flower.set_colorkey(BLACK)
       self.player_img = self.char.get_image(57, 43, 50, 43)
       self.player_img.set_colorkey(BLACK)
-      self.Ren_img = self.ren.get_image(145, 195, 48, 48) # forward 1
-      self.Ren_img.set_colorkey(BLACK)
+
+      self.wall_lower_left = self.tilemap.get_image(1, 16*10.7, 16, 16, 2.5, 2.5) # wall
+      self.wall_lower_left.set_colorkey(BLACK)
+      self.wall_lower_mid = self.tilemap.get_image(16, 16*10.7, 16, 16, 2.5, 2.5) # wall
+      self.wall_lower_mid.set_colorkey(BLACK)
+      self.wall_lower_right = self.tilemap.get_image(16*2.1, 16*10.7, 16, 16, 2.5, 2.5) # wall
+      self.wall_lower_right.set_colorkey(BLACK)
+
+      self.wall_upper_right = self.tilemap.get_image(16*2.1, 16*8.5, 16, 16, 2.5, 2.5) # wall
+      self.wall_upper_right.set_colorkey(BLACK)
+      # self.Ren_img = self.ren.get_image(145, 195, 48, 48) # forward 1
+      # self.Ren_img.set_colorkey(BLACK)
 
       self.right = []
       self.left = []
+      self.up = []
       self.down = []
 
       for i in range(3, 6):
          locx =  i * 48
-         locy = 48*5
-         self.Ren_left = self.ren.get_image(locx, locy, 48, 48) # left
-         self.Ren_left.set_colorkey(BLACK)
-         self.left.append(self.Ren_left)
-         print(self.left)
+         locy = 48*4
+         self.Ren_down = self.ren.get_image(locx, locy, 48, 48) # down
+         self.Ren_down.set_colorkey(BLACK)
+         self.down.append(self.Ren_down)
+
 
       for i in range(3, 6):
          locx =  i * 48
-         locy = 48*4
-         self.Ren_right = self.ren.get_image(locx, locy, 48, 48) # right
-         self.Ren_right.set_colorkey(BLACK)
-         self.right = pg.transform.flip(self.left, True, False)
-         self.right.append(self.Ren_right)
-         # self.right
-         # print(self.right)
+         locy = 48*7
+         self.Ren_up = self.ren.get_image(locx, locy, 48, 48) # up
+         self.Ren_up.set_colorkey(BLACK)
+         self.up.append(self.Ren_up)
+
+      for i in range(3, 6):
+         locx =  i * 48
+         locy = 48*5
+         self.Ren_left = self.ren.get_image(locx, locy, 48, 48) # left/right
+         self.Ren_left.set_colorkey(BLACK)
+         self.left.append(self.Ren_left)
+         right = pg.transform.flip(self.Ren_left, True, False)
+         self.right.append(right)
+
+
 
       # self.Ren_img.set_colorkey(BLACK)
       self.wall_img = self.tilemap.get_image(16*6.4, 16*11, 16, 16, 4, 5)
@@ -121,6 +141,7 @@ class Game:
       self.wall_group = pg.sprite.Group()
       self.all_sprites = pg.sprite.Group()
       self.obj_group = pg.sprite.Group()
+      self.player_sprite = pg.sprite.Group()
   
       # player = Player()
 
@@ -133,7 +154,7 @@ class Game:
                block = Wall(x, y, self.screen, self.wall_img)
                self.wall_group.add(block)
                self.all_sprites.add(block)
-            elif tile == ' ':
+            elif tile == '0':
                plain = Wall(x, y, self.screen, self.grass_plain)
                self.all_sprites.add(plain)
             elif tile == 'f':
@@ -169,11 +190,19 @@ class Game:
             elif tile == 'L':
                lower_left = Wall(x, y, self.screen, self.grass_lower_left)
                self.all_sprites.add(lower_left)
+            elif tile == 'w':
+               idk = Wall(x, y, self.screen, self.wall_lower_right)
+               self.all_sprites.add(idk)
+               self.wall_group.add(idk)
             # elif tile == 'a':
-      arrow = Wall(300, 200, self.screen, self.coin_img)
-      self.obj_group.add(arrow)
-               # self.wall_group.add(arrow)
-      self.player = Player(self.screen, self.left, self.right, 200, 200, self.Ren_img, self)
+      # self.all_sprites.add(coin)
+      for x in range(200, 350, 50):
+         for y in range (200, 350, 50):
+            coin = Wall(x, y, self.screen, self.coin_img)
+            self.obj_group.add(coin)
+      # self.wall_group.add(coin)
+      self.player = Player(self.screen, self.left, self.right, self.up, self.down, 200, 200, self)
+      # self.player_sprite.add(self.player)
       self.all_sprites.add(self.player)
 
       self.game_viewer = Camera(MAP_WIDTH, MAP_HEIGHT)
@@ -190,7 +219,8 @@ class Game:
       self.screen.fill(WHITE)
       for sprite in self.all_sprites:
          self.screen.blit(sprite.image, self.game_viewer.get_view(sprite))
-      # self.all_sprites.draw(self.screen)
+      
+      # self.player_sprite.draw(self.screen)
       self.obj_group.draw(self.screen)
       # self.wall_group.draw(self.screen)
       pg.display.flip()
