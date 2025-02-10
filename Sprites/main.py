@@ -12,7 +12,7 @@ class Game:
    def __init__(self):
       pg.init()
       pg.mixer.init()
-      self.screen = pg.display.set_mode((WIDTH, HEIGHT))
+      self.screen = pg.display.set_mode((WIDTH, HEIGHT), pg.RESIZABLE)
       self.clock = pg.time.Clock()
       self.running = True
       self.all_sprites = pg.sprite.Group()
@@ -20,11 +20,11 @@ class Game:
       self.obj_group = pg.sprite.Group()
       # self.char = []
 
-      self.explosion_sheet = SpriteSheet("explosion.png")
-      self.tilemap = SpriteSheet("tilemap.png")
-      self.char = SpriteSheet("spritesheet_characters.png")
-      self.char2 = SpriteSheet("new_chars.png")
-      self.ren = SpriteSheet("Ren.png")
+      self.explosion_sheet = SpriteSheet("Sprites/explosion.png")
+      self.tilemap = SpriteSheet("Sprites/tilemap.png")
+      self.char = SpriteSheet("Sprites/spritesheet_characters.png")
+      self.char2 = SpriteSheet("Sprites/new_chars.png")
+      self.ren = SpriteSheet("Sprites/Ren.png")
 
       self.load_images()
 
@@ -47,7 +47,7 @@ class Game:
          # explotsion_list[0]
       
       '''load and/or get images'''
-      self.tilemap = SpriteSheet("tilemap.png")
+      self.tilemap = SpriteSheet("Sprites/tilemap.png")
       self.grass_img = self.tilemap.get_image(16, 1, 16, 16, 2.5, 2.5) # grass with flowers (green)
       self.grass_img.set_colorkey(BLACK)
       self.grass_plain = self.tilemap.get_image(1, 1, 16, 16, 2.5, 2.5) # grass without flowers
@@ -59,13 +59,25 @@ class Game:
 
       self.wall_lower_left = self.tilemap.get_image(1, 16*10.7, 16, 16, 2.5, 2.5) # wall
       self.wall_lower_left.set_colorkey(BLACK)
+      self.wall_left_cornor_mid = self.tilemap.get_image(1, 16*9.5, 16, 16, 2.5, 2.5) # wall
+      self.wall_left_cornor_mid.set_colorkey(BLACK)
+      self.wall_upper_left = self.tilemap.get_image(1, 16*8.5, 16, 16, 2.5, 2.5) # wall
+      self.wall_upper_left.set_colorkey(BLACK)
+      
       self.wall_lower_mid = self.tilemap.get_image(16, 16*10.7, 16, 16, 2.5, 2.5) # wall
       self.wall_lower_mid.set_colorkey(BLACK)
-      self.wall_lower_right = self.tilemap.get_image(16*2.1, 16*10.7, 16, 16, 2.5, 2.5) # wall
-      self.wall_lower_right.set_colorkey(BLACK)
+      self.wall_middle = self.tilemap.get_image(16, 16*9.6, 16, 16, 2.5, 2.5) # wall
+      self.wall_middle.set_colorkey(BLACK)
+      self.wall_upper_mid = self.tilemap.get_image(16, 16*8.6, 16, 16, 2.5, 2.5) # wall
+      self.wall_upper_mid.set_colorkey(BLACK)
 
-      self.wall_upper_right = self.tilemap.get_image(16*2.1, 16*8.5, 16, 16, 2.5, 2.5) # wall
+
+      self.wall_lower_right = self.tilemap.get_image(16*2.1, 16*10.7, 16, 16, 2.5, 2.5) # wall lower right
+      self.wall_lower_right.set_colorkey(BLACK)
+      self.wall_upper_right = self.tilemap.get_image(16*2.1, 16*8.5, 16, 16, 2.5, 2.5) # wall * upper right
       self.wall_upper_right.set_colorkey(BLACK)
+      self.wall_right_cornor_mid = self.tilemap.get_image(16*2.1, 16*9.5, 16, 16, 2.5, 2.5) # wall middle right side
+      self.wall_right_cornor_mid.set_colorkey(BLACK)
       # self.Ren_img = self.ren.get_image(145, 195, 48, 48) # forward 1
       # self.Ren_img.set_colorkey(BLACK)
 
@@ -101,7 +113,7 @@ class Game:
 
 
       # self.Ren_img.set_colorkey(BLACK)
-      self.wall_img = self.tilemap.get_image(16*6.4, 16*11, 16, 16, 4, 5)
+      self.wall_img = self.tilemap.get_image(16*6.4, 16*11, 16, 16, 3, 4)
       self.wall_img.set_colorkey(BLACK)
       self.coin_img = self.tilemap.get_image(16*9.5, 16*7.5, 16, 16, 2, 2)
       self.coin_img.set_colorkey(BLACK)
@@ -150,11 +162,15 @@ class Game:
          for col_index, tile in enumerate(row):
             y = row_index * TILESIZE
             x = col_index * TILESIZE
+            # if tile == 'd':
+            #    self.wall_middle = Wall(x, y, self.screen, self.wall_right_cornor_mid)
+            #    self.all_sprites.add(self.wall_middle)
+            #    self.wall_group.add(self.wall_middle)
             if tile == '1':
                block = Wall(x, y, self.screen, self.wall_img)
                self.wall_group.add(block)
                self.all_sprites.add(block)
-            elif tile == '0':
+            elif tile == ' ':
                plain = Wall(x, y, self.screen, self.grass_plain)
                self.all_sprites.add(plain)
             elif tile == 'f':
@@ -191,9 +207,43 @@ class Game:
                lower_left = Wall(x, y, self.screen, self.grass_lower_left)
                self.all_sprites.add(lower_left)
             elif tile == 'w':
-               idk = Wall(x, y, self.screen, self.wall_lower_right)
-               self.all_sprites.add(idk)
-               self.wall_group.add(idk)
+               lower_mid = Wall(x, y, self.screen, self.wall_lower_mid)
+               self.all_sprites.add(lower_mid)
+               self.wall_group.add(lower_mid)
+            elif tile == '5':
+               lower_left = Wall(x, y, self.screen, self.wall_lower_left)
+               self.all_sprites.add(lower_left)
+               self.wall_group.add(lower_left)
+            elif tile == '6':
+               upper_right = Wall(x, y, self.screen, self.wall_upper_right)
+               self.all_sprites.add(upper_right)
+               self.wall_group.add(upper_right)
+            elif tile == 'u':
+               self.wall_mid = Wall(x, y, self.screen, self.wall_upper_mid)
+               self.all_sprites.add(self.wall_mid)
+               self.wall_group.add(self.wall_mid)
+            elif tile == '8':
+               self.wall_mid_mid = Wall(x, y, self.screen, self.wall_middle)
+               self.all_sprites.add(self.wall_mid_mid)
+               self.wall_group.add(self.wall_mid_mid)
+            elif tile == '9':
+               self.wall_right_mid = Wall(x, y, self.screen, self.wall_right_cornor_mid)
+               self.all_sprites.add(self.wall_right_mid)
+               self.wall_group.add(self.wall_right_mid)
+            elif tile == '!':
+               self.wall_right_down = Wall(x, y, self.screen, self.wall_lower_right)
+               self.all_sprites.add(self.wall_right_down)
+               self.wall_group.add(self.wall_right_down)
+            elif tile == '7':
+               self.wall_left_mid = Wall(x, y, self.screen, self.wall_left_cornor_mid)
+               self.all_sprites.add(self.wall_left_mid)
+               self.wall_group.add(self.wall_left_mid)
+            elif tile == 'v':
+               self.wall_left_low = Wall(x, y, self.screen, self.wall_upper_left)
+               self.all_sprites.add(self.wall_left_low)
+               self.wall_group.add(self.wall_left_low)
+
+               
             # elif tile == 'a':
       # self.all_sprites.add(coin)
       for x in range(200, 350, 50):
