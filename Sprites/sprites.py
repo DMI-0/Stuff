@@ -91,16 +91,15 @@ class Player(pg.sprite.Sprite):
             elif self.run == -2:
                 self.image = self.up[0]
             self.run = None
-
      
 
         self.rect.x += self.vx
-        self.collide_with_obj('x')
+        self.collide_with_obj()
         self.collide_with_wall('x')
 
         self.rect.y += self.vy
         self.collide_with_wall('y')
-        self.collide_with_obj('y')
+        self.collide_with_obj()
 
     def collide_with_wall(self, dir):
         if dir == 'x':
@@ -119,26 +118,9 @@ class Player(pg.sprite.Sprite):
                     self.rect.top = hits[0].rect.bottom
 
 
-    def collide_with_obj(self, dir):
-        if dir == 'x':
-            hits = pg.sprite.spritecollide(self, self.game.obj_group, False)
-            if hits:
-                self.rect.right = hits[0].rect.left
-                self.rect.left = hits[0].rect.right
-                font = pg.font.SysFont("TimesNewRoman", 35)
-                score_text = font.render("Coin: ", True, WHITE)
-                self.display.blit(score_text, (WIDTH-100, HEIGHT-100))
-                hits[0].rect.x = -10
-                hits[0].rect.y = -10
-# y 469 and 107
-# x 64 600
-        elif dir == 'y':
-            hits = pg.sprite.spritecollide(self, self.game.obj_group, False)
-            if hits:
-                self.rect.bottom = hits[0].rect.top
-                self.rect.top = hits[0].rect.bottom
-                hits[0].rect.x = -10
-                hits[0].rect.y = -10
+    def collide_with_obj(self):
+        hits = pg.sprite.spritecollide(self, self.game.coin_group, True)
+
 class Wall(pg.sprite.Sprite):
     def __init__(self, x, y, display, image):
         pg.sprite.Sprite.__init__(self)
@@ -162,6 +144,17 @@ class Enemy(pg.sprite.Sprite):
         self.vx = 0
         self.vy = 0
         self.player_speed = 5
+
+class Object(pg.sprite.Sprite):
+    def __init__(self, display, x, y, img):
+        pg.sprite.Sprite.__init__(self)
+        self = self
+        self.image = img
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.display = display
+
 
 class Camera:
     def __init__(self, width, height):
