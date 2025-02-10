@@ -1,9 +1,6 @@
 import pygame as pg
 from settings import *
-from sprites import SpriteSheet
-from sprites import Player
-from sprites import Wall
-from sprites import Camera
+from sprites import *
 
 # char width and height: 1474 and 74
 
@@ -17,14 +14,14 @@ class Game:
       self.running = True
       self.all_sprites = pg.sprite.Group()
       self.wall_group = pg.sprite.Group()
-      self.obj_group = pg.sprite.Group()
+      self.coin_group = pg.sprite.Group()
       # self.char = []
 
-      self.explosion_sheet = SpriteSheet("Sprites/explosion.png")
-      self.tilemap = SpriteSheet("Sprites/tilemap.png")
-      self.char = SpriteSheet("Sprites/spritesheet_characters.png")
-      self.char2 = SpriteSheet("Sprites/new_chars.png")
-      self.ren = SpriteSheet("Sprites/Ren.png")
+      self.explosion_sheet = SpriteSheet("explosion.png")
+      self.tilemap = SpriteSheet("tilemap.png")
+      self.char = SpriteSheet("spritesheet_characters.png")
+      self.char2 = SpriteSheet("new_chars.png")
+      self.ren = SpriteSheet("Ren.png")
 
       self.load_images()
 
@@ -47,36 +44,36 @@ class Game:
          # explotsion_list[0]
       
       '''load and/or get images'''
-      self.tilemap = SpriteSheet("Sprites/tilemap.png")
-      self.grass_img = self.tilemap.get_image(16, 1, 16, 16, 2.5, 2.5) # grass with flowers (green)
+      self.tilemap = SpriteSheet("tilemap.png")
+      self.grass_img = self.tilemap.get_image(16, 0, 16, 16, 2.2, 2.2) # grass with flowers (green)
       self.grass_img.set_colorkey(BLACK)
-      self.grass_plain = self.tilemap.get_image(1, 1, 16, 16, 2.5, 2.5) # grass without flowers
+      self.grass_plain = self.tilemap.get_image(0, 0, 16, 16, 2.2, 2.2) # grass without flowers
       self.grass_plain.set_colorkey(BLACK)
-      self.grass_flower = self.tilemap.get_image(35, 1, 16, 16, 2.5, 2.5) # grass with flowers (sunflower)
+      self.grass_flower = self.tilemap.get_image(17*2, 0, 16, 16, 2.2, 2.2) # grass with flowers (sunflower)
       self.grass_flower.set_colorkey(BLACK)
       self.player_img = self.char.get_image(57, 43, 50, 43)
       self.player_img.set_colorkey(BLACK)
 
-      self.wall_lower_left = self.tilemap.get_image(1, 16*10.7, 16, 16, 2.5, 2.5) # wall
+      self.wall_lower_left = self.tilemap.get_image(0, 16*10.7, 16, 16, 2.2, 2.2) # wall
       self.wall_lower_left.set_colorkey(BLACK)
-      self.wall_left_cornor_mid = self.tilemap.get_image(1, 16*9.5, 16, 16, 2.5, 2.5) # wall
+      self.wall_left_cornor_mid = self.tilemap.get_image(0, 16*9.5, 16, 16, 2.2, 2.2) # wall
       self.wall_left_cornor_mid.set_colorkey(BLACK)
-      self.wall_upper_left = self.tilemap.get_image(1, 16*8.5, 16, 16, 2.5, 2.5) # wall
+      self.wall_upper_left = self.tilemap.get_image(0, 16*8.5, 16, 16, 2.2, 2.2) # wall
       self.wall_upper_left.set_colorkey(BLACK)
       
-      self.wall_lower_mid = self.tilemap.get_image(16, 16*10.7, 16, 16, 2.5, 2.5) # wall
+      self.wall_lower_mid = self.tilemap.get_image(16, 16*10.7, 16, 16, 2.2, 2.2) # wall
       self.wall_lower_mid.set_colorkey(BLACK)
-      self.wall_middle = self.tilemap.get_image(16, 16*9.6, 16, 16, 2.5, 2.5) # wall
+      self.wall_middle = self.tilemap.get_image(16, 16*9.6, 16, 16, 2.2, 2.2) # wall
       self.wall_middle.set_colorkey(BLACK)
-      self.wall_upper_mid = self.tilemap.get_image(16, 16*8.6, 16, 16, 2.5, 2.5) # wall
+      self.wall_upper_mid = self.tilemap.get_image(16, 16*8.6, 16, 16, 2.2, 2.2) # wall
       self.wall_upper_mid.set_colorkey(BLACK)
 
 
-      self.wall_lower_right = self.tilemap.get_image(16*2.1, 16*10.7, 16, 16, 2.5, 2.5) # wall lower right
+      self.wall_lower_right = self.tilemap.get_image(16*2.1, 16*10.7, 16, 16, 2.2, 2.2) # wall lower right
       self.wall_lower_right.set_colorkey(BLACK)
-      self.wall_upper_right = self.tilemap.get_image(16*2.1, 16*8.5, 16, 16, 2.5, 2.5) # wall * upper right
+      self.wall_upper_right = self.tilemap.get_image(16*2.1, 16*8.5, 16, 16, 2.2, 2.2) # wall * upper right
       self.wall_upper_right.set_colorkey(BLACK)
-      self.wall_right_cornor_mid = self.tilemap.get_image(16*2.1, 16*9.5, 16, 16, 2.5, 2.5) # wall middle right side
+      self.wall_right_cornor_mid = self.tilemap.get_image(16*2.1, 16*9.5, 16, 16, 2.2, 2.2) # wall middle right side
       self.wall_right_cornor_mid.set_colorkey(BLACK)
       # self.Ren_img = self.ren.get_image(145, 195, 48, 48) # forward 1
       # self.Ren_img.set_colorkey(BLACK)
@@ -113,32 +110,32 @@ class Game:
 
 
       # self.Ren_img.set_colorkey(BLACK)
-      self.wall_img = self.tilemap.get_image(16*6.4, 16*11, 16, 16, 3, 4)
+      self.wall_img = self.tilemap.get_image(16*6.4, 16*11, 16, 16, 2, 3.5)
       self.wall_img.set_colorkey(BLACK)
       self.coin_img = self.tilemap.get_image(16*9.5, 16*7.5, 16, 16, 2, 2)
       self.coin_img.set_colorkey(BLACK)
-      self.ground_img = self.tilemap.get_image(16, 16, 16, 16, 2.5, 2.5) # Grass with dirt center
+      self.ground_img = self.tilemap.get_image(16, 16, 16, 16, 2.2, 2.2) # Grass with dirt center
       self.ground_img.set_colorkey(BLACK)
       
-      self.grass_corner_left = self.tilemap.get_image(1, 16, 16, 16, 2.5, 2.5) # upper left side
+      self.grass_corner_left = self.tilemap.get_image(0, 16, 16, 16, 2.2, 2.2) # upper left side
       self.grass_corner_left.set_colorkey(BLACK)
-      self.grass_left_side = self.tilemap.get_image(1, 34, 16, 16, 2.5, 2.5) # middle left side
+      self.grass_left_side = self.tilemap.get_image(0, 34, 16, 16, 2.2, 2.2) # middle left side
       self.grass_left_side.set_colorkey(BLACK)
-      self.grass_lower_left = self.tilemap.get_image(1, 52, 16, 16, 2.5, 2.5) # lower left corner
+      self.grass_lower_left = self.tilemap.get_image(0, 52, 16, 16, 2.2, 2.2) # lower left corner
       self.grass_lower_left.set_colorkey(BLACK)
-      self.grass_middle_lower = self.tilemap.get_image(16, 52, 16, 16, 2.5, 2.5) # middle lower grass
+      self.grass_middle_lower = self.tilemap.get_image(16, 52, 16, 16, 2.2, 2.2) # middle lower grass
       self.grass_middle_lower.set_colorkey(BLACK)
       
-      self.grass_lower_right = self.tilemap.get_image(34, 52, 16, 16, 2.5, 2.5) # right lower grass
+      self.grass_lower_right = self.tilemap.get_image(34, 52, 16, 16, 2.2, 2.2) # right lower grass
       self.grass_lower_right.set_colorkey(BLACK)
-      self.grass_corner_right = self.tilemap.get_image(34, 16, 16, 16, 2.5, 2.5) # right upper side
+      self.grass_corner_right = self.tilemap.get_image(34, 16, 16, 16, 2.2, 2.2) # right upper side
       self.grass_corner_right.set_colorkey(BLACK)
-      self.grass_middle_right = self.tilemap.get_image(34, 34, 16, 16, 2.5, 2.5) # Right side middle 
+      self.grass_middle_right = self.tilemap.get_image(34, 34, 16, 16, 2.2, 2.2) # Right side middle 
       self.grass_middle_right.set_colorkey(BLACK)
 
-      self.grass_mid_mid = self.tilemap.get_image(16, 16, 16, 16, 2.5, 2.5)
+      self.grass_mid_mid = self.tilemap.get_image(16, 16, 16, 16, 2.2, 2.2)
       self.grass_mid_mid.set_colorkey(BLACK)
-      self.dirt = self.tilemap.get_image(16, 34, 16, 16, 2.5, 2.5) # dirt block
+      self.dirt = self.tilemap.get_image(16, 34, 16, 16, 2.2, 2.2) # dirt block
       self.dirt.set_colorkey(BLACK)
 
 
@@ -152,7 +149,7 @@ class Game:
       '''call run() method'''
       self.wall_group = pg.sprite.Group()
       self.all_sprites = pg.sprite.Group()
-      self.obj_group = pg.sprite.Group()
+      self.coin_group = pg.sprite.Group()
       self.player_sprite = pg.sprite.Group()
   
       # player = Player()
@@ -246,10 +243,15 @@ class Game:
                
             # elif tile == 'a':
       # self.all_sprites.add(coin)
-      for x in range(200, 350, 50):
-         for y in range (200, 350, 50):
-            coin = Wall(x, y, self.screen, self.coin_img)
-            self.obj_group.add(coin)
+      
+      for x in range(3):
+         for y in range(3):
+
+            x = random.randint(67, MAP_WIDTH-112)
+            y = random.randint(152, MAP_HEIGHT-196)
+            coin = Object(self.screen, x, y, self.coin_img)
+            self.coin_group.add(coin)
+            self.all_sprites.add(coin)
       # self.wall_group.add(coin)
       self.player = Player(self.screen, self.left, self.right, self.up, self.down, 200, 200, self)
       # self.player_sprite.add(self.player)
@@ -261,17 +263,23 @@ class Game:
 
    def  update(self):
       '''run all updates'''
+      # print(f'this is the coins: {len(self.coin_group)}')
       # self.player.collide_with_wall()
       self.all_sprites.update()
       self.game_viewer.update(self.player)
+      if len(self.coin_group) <= 3:
+         # len(self.coin_group) += 10
+         pass
+
    def draw(self):
       '''fill the screen, draw the objects, and flip'''
       self.screen.fill(WHITE)
       for sprite in self.all_sprites:
          self.screen.blit(sprite.image, self.game_viewer.get_view(sprite))
       
+
+      
       # self.player_sprite.draw(self.screen)
-      self.obj_group.draw(self.screen)
       # self.wall_group.draw(self.screen)
       pg.display.flip()
    def events(self):
