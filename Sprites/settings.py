@@ -99,32 +99,38 @@ GRAVITY = 1
 # ]
 
 LAYOUT =[
+    'vuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu6',
+    '7wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww9',
+    '791111111111111111111111111111111111111111111111111111111111179',
+    '791111111111111111111111111111111111111111111111111111111111179',
+    '79mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm79',
+    '793333333333333333333333333333333333333333333333333333333333379',
+    '79M333MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM79',
+    '79 234     ggf     fffff                                     79',
+    '79 234     ggfff                                             79',
+    '79 234     gg                                                79',
+    '79 234                                                       79',
+    '79 234      ggg                                              79',                    # lmr
+    '79          ggg                                              79',                    # 234
+    '79          ggg                                              79',                    # LMR
+    '79                                                           79',
+    '79                                                           79',
+    '79                                                           79',
+    '79                                                           79',
+    '79                                                           79',
+    '79                                                           79',
+    '79                                                           79',
+    '79                                                           79',
+    '79uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu79',                                                        
+    '5wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwi',
     '111111111111111111111111111111111111111111111111111111111111111',
-    '111111111111111111111111111111111111111111111111111111111111111',
-    '1mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm1',
-    '133333333333333333333333333333333333333333333333333333333333331',
-    '1LM333MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMR1',
-    '1  234     ggf     fffff                                      1',
-    '1  234     ggfff                                              1',
-    '1  234     gg                                                 1',
-    '1  234                                                        1',
-    '1  234      ggg                                               1',                    # lmr
-    '1      w    ggg                                               1',                    # 234
-    '1           ggg                                               1',                    # LMR
-    '1                                                             1',
-    '1                                                             1',
-    '1                                                             1',
-    '1                                                             1',
-    '1                                                             1',
-    '1                                                             1'
-    '1                                                             1',
-    '1                                                             1',
-    '1                                                             1',
-    '1                                                             1',
-    '1                                                             1',
     '111111111111111111111111111111111111111111111111111111111111111'
 ]
 
+
+# vu6
+# 789
+# 5wi
 
 TILESIZE = 32
 # print(len(LAYOUT[0]), len(LAYOUT))
