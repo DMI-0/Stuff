@@ -82,6 +82,23 @@ class Game:
       self.left = []
       self.up = []
       self.down = []
+      self.castle_list = []
+
+
+      self.en_right = []
+      self.en_left = []
+      self.en_down = []
+      self.en_up = []
+
+      for l in range(2):
+         for i in range(8, 12):
+            locx = l*17
+            locy = 17*i
+            self.test = self.tilemap.get_image(locx, locy, 16, 16, 2.2, 2.2)
+            self.test.set_colorkey(BLACK)
+            self.castle_list.append(self.test)
+
+
 
       for i in range(3, 6):
          locx =  i * 48
@@ -106,6 +123,35 @@ class Game:
          self.left.append(self.Ren_left)
          right = pg.transform.flip(self.Ren_left, True, False)
          self.right.append(right)
+
+
+      
+
+
+
+      for i in range(0, 2):
+         locx =  i * 48
+         locy = 0
+         self.en = self.ren.get_image(locx, locy, 48, 48) # down
+         self.en.set_colorkey(BLACK)
+         self.en_down.append(self.en)
+
+
+      for i in range(0, 2):
+         locx =  i * 48
+         locy = 48*3
+         self.e_up = self.ren.get_image(locx, locy, 48, 48) # up
+         self.e_up.set_colorkey(BLACK)
+         self.en_up.append(self.e_up)
+
+      for i in range(0, 2):
+         locx =  i * 48
+         locy = 48
+         self.left_e = self.ren.get_image(locx, locy, 48, 48) # left/right
+         self.left_e.set_colorkey(BLACK)
+         self.en_left.append(self.left_e)
+         right = pg.transform.flip(self.left_e, True, False)
+         self.en_right.append(right)
 
 
 
@@ -153,16 +199,17 @@ class Game:
       self.player_sprite = pg.sprite.Group()
   
       # player = Player()
-
+      
       self.wall_list = []
       for row_index, row in enumerate(LAYOUT):
          for col_index, tile in enumerate(row):
             y = row_index * TILESIZE
             x = col_index * TILESIZE
             # if tile == 'd':
-            #    self.wall_middle = Wall(x, y, self.screen, self.wall_right_cornor_mid)
-            #    self.all_sprites.add(self.wall_middle)
-            #    self.wall_group.add(self.wall_middle)
+            #    self.w = Wall(x, y, self.screen, self.castle_list)
+            #    self.all_sprites.add(self.w)
+            #    self.wall_group.add(self.w)
+            
             if tile == '1':
                block = Wall(x, y, self.screen, self.wall_img)
                self.wall_group.add(block)
@@ -253,9 +300,14 @@ class Game:
             self.coin_group.add(coin)
             self.all_sprites.add(coin)
       # self.wall_group.add(coin)
-      self.player = Player(self.screen, self.left, self.right, self.up, self.down, 200, 200, self)
+      locx = random.randint(67, MAP_WIDTH-112)
+      locy = random.randint(152, MAP_HEIGHT-196)
+      self.player = Player(self.screen, self.left, self.right, self.up, self.down, 190, 190, self)
+      self.en = Enemy(self.screen, self.en_left, self.en_right, self.en_up, self.en_down, 200, 200, self)
+
       # self.player_sprite.add(self.player)
       self.all_sprites.add(self.player)
+      self.all_sprites.add(self.en)
 
       self.game_viewer = Camera(MAP_WIDTH, MAP_HEIGHT)
 
