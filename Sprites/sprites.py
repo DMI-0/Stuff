@@ -166,8 +166,24 @@ class Enemy(pg.sprite.Sprite):
         self.current_frame = 0
         self.delay = 70
         self.last = pg.time.get_ticks()
+        self.run = None
     def update(self):
-        self.rect.x += self.velo
+        self.now = pg.time.get_ticks
+        if MAP_HEIGHT > self.rect.x:
+            if self.now - self.last > self.delay:
+                    self.current_frame = (self.current_frame +1) % len(self.right)
+                    self.image = self.right[self.current_frame]
+                    self.last = self.now
+            self.run = 1
+            self.rect.x += self.velo
+
+        elif self.vx == 0 and self.vy == 0:
+            self.vx = 0
+            if self.run == 1:
+                self.image = self.right[0]
+        else:
+            self.velo = 0
+
 
 class Object(pg.sprite.Sprite):
     def __init__(self, display, x, y, img):
