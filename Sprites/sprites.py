@@ -131,19 +131,43 @@ class Wall(pg.sprite.Sprite):
         self.display = display
 
 
+class Tile(pg.sprite.Sprite):
+    def __init__(self, x, y, display, image, image_list):
+        pg.sprite.Sprite.__init__(self)
+        self.image = image
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.display = display
+        self.list = image_list
+        self.last = pg.time.get_ticks()
+    def update(self):
+            self.current_frame = (self.current_frame + 1) % len(self.list)
+            self.image = self.current_frame
+
 
 class Enemy(pg.sprite.Sprite):
-    def __init__(self, display, x, y, img, game):
+    def __init__(self, display, left, right, up, down, x, y, game):
         pg.sprite.Sprite.__init__(self)
         self.display = display
-        self.image = img
-        self.rect = self.image.get_rect()
-        self.rect.x = x     
-        self.rect.y = y 
+
         self.game = game
         self.vx = 0
         self.vy = 0
-        self.player_speed = 5
+        self.velo = 2
+        self.left = left
+        self.right = right
+        self.up = up
+        self.down = down
+        self.image = self.right[0]
+        self.rect = self.image.get_rect()
+        self.rect.x = x     
+        self.rect.y = y 
+        self.current_frame = 0
+        self.delay = 70
+        self.last = pg.time.get_ticks()
+    def update(self):
+        self.rect.x += self.velo
 
 class Object(pg.sprite.Sprite):
     def __init__(self, display, x, y, img):
@@ -155,6 +179,10 @@ class Object(pg.sprite.Sprite):
         self.rect.y = y
         self.display = display
 
+class Bullet(pg.sprite.Sprite):
+    def __init__(self, player):
+        self.image.fill(BLUE)
+        self.rect = self.image.get_rect()
 
 class Camera:
     def __init__(self, width, height):
