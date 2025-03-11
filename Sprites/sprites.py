@@ -15,7 +15,7 @@ class SpriteSheet():
         return image
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, display, left, right, up, down, x, y, game):# left_img, right_img):
+    def __init__(self, display, left, right, up, down, x, y, game):
         pg.sprite.Sprite.__init__(self)
         self.display = display
 
@@ -154,7 +154,7 @@ class Enemy(pg.sprite.Sprite):
         self.game = game
         self.vx = 0
         self.vy = 0
-        self.velo = 2
+        self.velo = 3
         self.left = left
         self.right = right
         self.up = up
@@ -167,22 +167,70 @@ class Enemy(pg.sprite.Sprite):
         self.delay = 70
         self.last = pg.time.get_ticks()
         self.run = None
-    def update(self):
-        self.now = pg.time.get_ticks
-        if MAP_HEIGHT > self.rect.x:
-            if self.now - self.last > self.delay:
-                    self.current_frame = (self.current_frame +1) % len(self.right)
-                    self.image = self.right[self.current_frame]
-                    self.last = self.now
-            self.run = 1
-            self.rect.x += self.velo
+        # self.x_move = random.randint(340, 400)
+        self.pos = 0
 
-        elif self.vx == 0 and self.vy == 0:
-            self.vx = 0
-            if self.run == 1:
-                self.image = self.right[0]
-        else:
+
+    def update(self):
+        for i in range(203, 399, 3): # stops at 62
+            self.x_move = i
+        self.run = 1
+        self.vx = self.velo
+        if self.pos == 0:
             self.velo = 0
+        if self.rect.x != self.x_move:
+            self.pos = 1
+        elif self.rect.x == 62:
+            self.pos = -1
+        if self.pos == 1:
+            self.velo = 3
+            self.rect.x += self.vx
+            self.rect.y += self.vy
+            self.now = pg.time.get_ticks()
+            if self.now - self.last > self.delay:
+                self.current_frame = (self.current_frame +1) % len(self.right)
+                self.image = self.right[self.current_frame]
+                self.last = self.now
+
+
+        if self.pos == -1:
+            self.rect.x -= self.vx*2
+            self.rect.y -= self.vy*2 
+            self.now = pg.time.get_ticks()
+            if self.now - self.last > self.delay:
+                self.current_frame = (self.current_frame +1) % len(self.right)
+                self.image = self.right[self.current_frame]
+                self.last = self.now
+
+        print(f'this is the stop: {self.x_move} and this is the x: {self.rect.x} and this is the velo: {self.velo} this: {self.pos}')
+        # if self.run == -1:
+        #     self.image = self.left[0]
+        # elif self.run == 1:
+        #     self.image = self.right[0]
+
+        self.rect.x += self.vx
+        self.collide_with_wall('x')
+
+        self.rect.y += self.vy
+        self.collide_with_wall('y')
+
+    def collide_with_wall(self, dir):
+        if dir == 'x':
+            hits = pg.sprite.spritecollide(self, self.game.wall_group, False)
+            if hits:
+                if self.vx > 0:  
+                    self.rect.right = hits[0].rect.left
+                elif self.vx < 0:  
+                    self.rect.left = hits[0].rect.right
+        elif dir == 'y':
+            hits = pg.sprite.spritecollide(self, self.game.wall_group, False)
+            if hits:
+                if self.vy > 0:  
+                    self.rect.bottom = hits[0].rect.top
+                elif self.vy < 0:  
+                    self.rect.top = hits[0].rect.bottom
+
+
 
 
 class Object(pg.sprite.Sprite):
