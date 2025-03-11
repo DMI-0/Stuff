@@ -143,7 +143,7 @@ LAYOUT =[
     '79 234     ggfff               79',
     '79 234     gg                  79',
     '79 234                         79',
-    '79 234      ggg                79',                    # lmr
+    '79 234  d   ggg                79',                    # lmr
     '79          ggg                79',                    # 234
     '79          ggg                79',                    # LMR
     '79                             79',
@@ -187,6 +187,7 @@ ENEMY_HEIGHT = 40
 slime_width = 50
 slime_height = 50
 
+# print(f'this is the height: {MAP_HEIGHT} and width: {MAP_WIDTH}')
 test = 250
 
 
