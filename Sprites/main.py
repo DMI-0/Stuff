@@ -17,11 +17,11 @@ class Game:
       self.coin_group = pg.sprite.Group()
       # self.char = []
 
-      self.explosion_sheet = SpriteSheet("explosion.png")
-      self.tilemap = SpriteSheet("tilemap.png")
-      self.char = SpriteSheet("spritesheet_characters.png")
-      self.char2 = SpriteSheet("new_chars.png")
-      self.ren = SpriteSheet("Ren.png")
+      self.explosion_sheet = SpriteSheet("Sprites/explosion.png")
+      self.tilemap = SpriteSheet("Sprites/tilemap.png")
+      self.char = SpriteSheet("Sprites/spritesheet_characters.png")
+      self.char2 = SpriteSheet("Sprites/new_chars.png")
+      self.ren = SpriteSheet("Sprites/Ren.png")
 
       self.load_images()
 
@@ -44,7 +44,7 @@ class Game:
          # explotsion_list[0]
       
       '''load and/or get images'''
-      self.tilemap = SpriteSheet("tilemap.png")
+      self.tilemap = SpriteSheet("Sprites/tilemap.png")
       self.grass_img = self.tilemap.get_image(16, 0, 16, 16, 2.2, 2.2) # grass with flowers (green)
       self.grass_img.set_colorkey(BLACK)
       self.grass_plain = self.tilemap.get_image(0, 0, 16, 16, 2.2, 2.2) # grass without flowers
@@ -376,7 +376,7 @@ pg.quit()
 
 # explosion_sheet = SpriteSheet("explosion.png")
 # tilemap = SpriteSheet("tilemap.png")
-# character = SpriteSheet("spritesheet_characters.png")
+# character = SpriteSheet("Sprites/spritesheet_characters.png")
 # explosion_list = []
 # tilemap_list = []
 # player_list = []
