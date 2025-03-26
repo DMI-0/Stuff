@@ -172,41 +172,25 @@ class Enemy(pg.sprite.Sprite):
 
 
     def update(self):
-        for i in range(203, 399, 3): # stops at 62
-            self.x_move = i
-        self.run = 1
-        self.vx = self.velo
-        if self.pos == 0:
-            self.velo = 0
-        if self.rect.x != self.x_move:
-            self.pos = 1
-        elif self.rect.x == 62:
-            self.pos = -1
-        if self.pos == 1:
+        self.move_left = self.x 
+        self.move_right = self.x + self.range
+        self.rect.x += -self.velo
+        if self.rect.x <= self.move_left:
+            self.run = 1 
+            self.velo = -3
+        self.now = pg.time.get_ticks()
+        if self.now - self.last > self.delay and self.velo == -3:
+            self.current_frame = (self.current_frame +1) % len(self.right)
+            self.image = self.right[self.current_frame]
+            self.last = self.now
+        if self.rect.x >= self.move_right:
+            self.run = -1
             self.velo = 3
-            self.rect.x += self.vx
-            self.rect.y += self.vy
-            self.now = pg.time.get_ticks()
-            if self.now - self.last > self.delay:
-                self.current_frame = (self.current_frame +1) % len(self.right)
-                self.image = self.right[self.current_frame]
-                self.last = self.now
-
-
-        if self.pos == -1:
-            self.rect.x -= self.vx*2
-            self.rect.y -= self.vy*2 
-            self.now = pg.time.get_ticks()
-            if self.now - self.last > self.delay:
-                self.current_frame = (self.current_frame +1) % len(self.right)
-                self.image = self.right[self.current_frame]
-                self.last = self.now
-
-        print(f'this is the stop: {self.x_move} and this is the x: {self.rect.x} and this is the velo: {self.velo} this: {self.pos}')
-        # if self.run == -1:
-        #     self.image = self.left[0]
-        # elif self.run == 1:
-        #     self.image = self.right[0]
+        self.now = pg.time.get_ticks()
+        if self.now - self.last > self.delay and self.velo == 3:
+            self.current_frame = (self.current_frame +1) % len(self.left)
+            self.image = self.left[self.current_frame]
+            self.last = self.now
 
         self.rect.x += self.vx
         self.collide_with_wall('x')
