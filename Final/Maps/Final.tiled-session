@@ -1,0 +1,45 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "Map1.tmx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "Map1.tmx": {
+            "scale": 5.5,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 149.9090909090909,
+                "y": 237.9090909090909
+            }
+        },
+        "knight.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "sheet1.tsx": {
+            "scaleInDock": 2
+        }
+    },
+    "last.imagePath": "/Users/dmitrymcdonald/Desktop/Coding/Python/Game Dev/Final/Platformer/sprites",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "openFiles": [
+        "Map1.tmx"
+    ],
+    "project": "Final.tiled-project",
+    "recentFiles": [
+        "knight.tsx",
+        "Map1.tmx"
+    ],
+    "resizeMap.removeObjects": false,
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
