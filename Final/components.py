@@ -431,25 +431,36 @@ class Camera:
         self.camera = pg.Rect(0, 0, width, height)
         self.width = width
         self.height = height
+        self.clock = pg.time.Clock()
     def get_view(self, sprite_object):
         # all sprite object will be moved on camera position
         return sprite_object.rect.move(self.camera.topleft)
     def update(self, target):
-        # shift map in opp direction
-        # add half window size
-        x = -target.rect.x + WIDTH//2
-        y = -target.rect.y + HEIGHT//2
+        # Horizontal follow always
+        x = -target.rect.x + WIDTH // 2
 
-        # stop scrolling at end of the tilemap
-        # if the target moves too far left, or up, make x/y stay = 0
+        # Calculate desired y position
+        target_y = -target.rect.y + HEIGHT // 2
+        current_y = self.camera.y
+
+        # Vertical follow only if player moves above or below threshold (100 pixels)
+        if target_y > current_y + 200:
+            y = target_y
+            self.clock.tick(FPS)
+        elif target_y < current_y - 200:
+            y = target_y
+            self.clock.tick(FPS)
+        else:
+            y = current_y  # stay
+
+        
         x = min(0, x)
-        y = min(0, y)
-        # y = 0
-        # if the target moves too far right or down make the target
-        # at the width of the tilemap minus the of the window
         x = max(-1 * (self.width - WIDTH), x)
+        y = min(0, y)
         y = max(-1 * (self.height - HEIGHT), y)
+
         self.camera = pg.Rect(x, y, self.width, self.height)
+
 
 class Left_Right(pg.sprite.Sprite):
     def __init__(self, display, x, y, image, game):

@@ -30,7 +30,7 @@ class Game:
         self.swoosh = SpriteSheet("swoosh.png")
         self.ren = SpriteSheet("Ren.png")
         self.slime = SpriteSheet("Platformer/sprites/slime_green.PNG")
-        self.index = 2
+        self.index = 0
         self.current_level = map_list[self.index]
         self.next_level = False
 
