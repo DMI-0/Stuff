@@ -342,7 +342,6 @@ class Enemy(pg.sprite.Sprite):
         self.Damage = 25
         self.HP = 2
 
-
     def update(self):
         self.move_left = self.x 
         self.move_right = self.x + self.range
@@ -360,6 +359,82 @@ class Enemy(pg.sprite.Sprite):
             self.velo = 2
         self.now = pg.time.get_ticks()
         if self.now - self.last > self.delay and self.velo == 2:
+            self.current_frame = (self.current_frame +1) % len(self.left)
+            self.image = self.left[self.current_frame]
+            self.last = self.now
+        self.rect.x += self.vx
+
+        self.vy += GRAVITY
+        if self.vy > 10: # and self.rect.y != 550:
+            self.vy = 10         # set terminal velocity
+        self.collide_with_wall('x')
+
+        self.rect.y += self.vy
+        self.collide_with_wall('y')
+
+    def collide_with_wall(self, dir):
+        if dir == 'x':
+            hits = pg.sprite.spritecollide(self, self.game.wall_group, False)
+            if hits:
+                if self.vx > 0:  
+                    self.rect.right = hits[0].rect.left
+                elif self.vx < 0:  
+                    self.rect.left = hits[0].rect.right
+        elif dir == 'y':
+            hits = pg.sprite.spritecollide(self, self.game.wall_group, False)
+            if hits:
+                if self.vy > 0:  
+                    self.rect.bottom = hits[0].rect.top
+                elif self.vy < 0:  
+                    self.rect.top = hits[0].rect.bottom
+
+class Reverse_Enemy(pg.sprite.Sprite):
+    def __init__(self, display, left, right, up, down, x, y, game):
+        pg.sprite.Sprite.__init__(self)
+        self.display = display
+
+        self.game = game
+        self.vx = 0
+        self.vy = 0
+        self.velo = 1
+        self.left = left
+        self.right = right
+        self.up = up
+        self.down = down
+        self.image = self.right[0]
+        self.rect = self.image.get_rect()
+        self.rect.x = x     
+        self.rect.y = y 
+        self.current_frame = 0
+        self.delay = 70
+        self.last = pg.time.get_ticks()
+        self.run = None
+        # self.x_move = random.randint(340, 400)
+        self.pos = 0
+        self.x = x
+        self.y = y
+        self.range = 100
+        self.Damage = 25
+        self.HP = 2
+
+    def update(self):
+        self.move_left = self.x - self.range
+        self.move_right = self.x 
+        self.rect.x += -self.velo
+        print(f' this is the left: {self.move_left} and this is the right: {self.move_right} and this is the x: {self.rect.x}')
+        if self.rect.x <= self.move_right:
+            self.run = 1 
+            self.velo = -2
+        self.now = pg.time.get_ticks()
+        if self.now - self.last > self.delay and self.velo == 2:
+            self.current_frame = (self.current_frame +1) % len(self.right)
+            self.image = self.right[self.current_frame]
+            self.last = self.now
+        if self.rect.x >= self.move_left:
+            self.run = -1
+            self.velo = 2
+        self.now = pg.time.get_ticks()
+        if self.now - self.last > self.delay and self.velo == -2:
             self.current_frame = (self.current_frame +1) % len(self.left)
             self.image = self.left[self.current_frame]
             self.last = self.now

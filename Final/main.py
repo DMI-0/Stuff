@@ -30,7 +30,8 @@ class Game:
         self.swoosh = SpriteSheet("swoosh.png")
         self.ren = SpriteSheet("Ren.png")
         self.slime = SpriteSheet("Platformer/sprites/slime_green.PNG")
-        self.index = 0
+        self.slime_pur = SpriteSheet("Platformer/sprites/Slime_Purple.png")
+        self.index = 2
         self.current_level = map_list[self.index]
         self.next_level = False
 
@@ -60,6 +61,8 @@ class Game:
         self.en_left = []
         self.en_down = []
         self.en_up = []
+        self.en_right2 = []
+        self.en_left2 = []
 ########## List for my Enemy movements ##########
 
         self.platform = self.move.get_image(16, 0, 32, 16)
@@ -122,6 +125,14 @@ class Game:
             self.en_left.append(self.left_e)
             right = pg.transform.flip(self.left_e, True, False)
             self.en_right.append(right)
+        for i in range(0, 4):
+            locx =  i * 24
+            locy = 0
+            self.left_e = self.slime_pur.get_image(locx, locy, 24, 24, scale, scale) # left/right
+            self.left_e.set_colorkey(BLACK)
+            self.en_left2.append(self.left_e)
+            right = pg.transform.flip(self.left_e, True, False)
+            self.en_right2.append(right)
 ########## Enemy ##########
       # self.player = self.character.get_image(57, 43, 50, 43)
 
@@ -188,7 +199,13 @@ class Game:
                       self.enemy = Enemy(self.screen, self.en_left, self.en_right, self.en_up, self.en_down, obj.x*mult, obj.y*mult2, self)
                       self.all_sprites.add(self.enemy)
                       self.enemy_group.add(self.enemy)
-                      enemy_list.append(self.enemy)                    
+                      enemy_list.append(self.enemy)    
+
+                    elif obj.name == 'Enemy2':
+                      self.enemys = Reverse_Enemy(self.screen, self.en_left2, self.en_right2, self.en_up, self.en_down, obj.x*mult, obj.y*mult2, self)
+                      self.all_sprites.add(self.enemys)
+                      self.enemy_group.add(self.enemys)
+                      enemy_list.append(self.enemys)                
                     elif obj.name == 'Port':
                         # print("PI")
                         self.level = Object(self.screen, obj.x*mult, obj.y*mult, self.attack_list, self)
