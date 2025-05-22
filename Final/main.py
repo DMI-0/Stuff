@@ -31,7 +31,8 @@ class Game:
         self.ren = SpriteSheet("Ren.png")
         self.slime = SpriteSheet("Platformer/sprites/slime_green.PNG")
         self.slime_pur = SpriteSheet("Platformer/sprites/Slime_Purple.png")
-        self.index = 2
+        self.index = 0
+        self.count = 0
         self.current_level = map_list[self.index]
         self.next_level = False
 
@@ -138,6 +139,7 @@ class Game:
 
 
     def new(self):
+    
         '''create all game objects, sprites, and groups'''
         '''call run() method'''
         self.wall_group = pg.sprite.Group()
@@ -148,6 +150,7 @@ class Game:
         self.map_sprites = pg.sprite.Group()
         self.move_sprites = pg.sprite.Group()
         self.level_group = pg.sprite.Group()
+        self.stop_group = pg.sprite.Group()
 
         self.map = pytmx.load_pygame(self.current_level)
         
@@ -178,9 +181,13 @@ class Game:
                         self.all_sprites.add(self.guy)
                         self.player_sprite.add(self.guy)
                     elif obj.name == "Col":
-                      Be = Wall(obj.x*mult, obj.y*mult, obj.width*mult, obj.height*mult)
-                      self.wall_group.add(Be)
-                      self.all_sprites.add(Be)
+                        Be = Wall(obj.x*mult, obj.y*mult, obj.width*mult, obj.height*mult)
+                        self.wall_group.add(Be)
+                        self.all_sprites.add(Be)
+                    elif obj.name == "Wall":
+                        Be = Wall(obj.x*mult, obj.y*mult, obj.width*mult, obj.height*mult)
+                        self.stop_group.add(Be)
+                        self.all_sprites.add(Be)
                     elif obj.name == 'Down':
                         self.down = Up_Down(self.screen, obj.x*mult, obj.y*mult, self.move_list, self)
                         self.all_sprites.add(self.down)
@@ -192,9 +199,9 @@ class Game:
                         self.death_zone.add(ded)
                     elif obj.name == 'coin':
                         # print("YES")
-                        coin = Object(self.screen, obj.x*mult, obj.y*mult, self.coin_list, self)
-                        self.all_sprites.add(coin)
-                        self.coin_group.add(coin)
+                        self.coin2 = Object(self.screen, obj.x*mult, obj.y*mult, self.coin_list, self)
+                        self.all_sprites.add(self.coin2)
+                        self.coin_group.add(self.coin2)
                     elif obj.name == 'Enemy':
                       self.enemy = Enemy(self.screen, self.en_left, self.en_right, self.en_up, self.en_down, obj.x*mult, obj.y*mult2, self)
                       self.all_sprites.add(self.enemy)
@@ -213,6 +220,7 @@ class Game:
                         # self.wall_group.add(self.level)
                         self.all_sprites.add(self.level)
                         self.level_list.append(self.level)
+                    self.coin3 =  Object(self.screen, obj.x*mult, obj.y*mult, self.coin_list, self)
 
 
 
@@ -255,7 +263,7 @@ class Game:
                     self.current_level = map_list[self.index]
                     self.new()  # Reload the level with new map
                 else:
-                    # Game completed - loop back to first level or show victory screen
+                    # Game completed - loop back to first level
                     self.index = 0
                     self.current_level = map_list[self.index]
                     self.new()
@@ -284,7 +292,15 @@ class Game:
             self.game_over()   
         else:
             self.show_start_screen()    
+        # Draw coin icon
+        # if self.guy.rect.colliderect(self.coin2.rect):
+        #     self.count += 1
+        # self.screen.blit(self.coin3, (20, 20))
 
+        # Draw coin number
+        # font = pg.font.SysFont('Arial', 24)
+        # coin_text = font.render(self.count, True, (255, 255, 255))
+        # self.screen.blit(coin_text, (60, 25))
 
         pg.display.flip()
 

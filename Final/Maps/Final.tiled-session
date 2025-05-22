@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Map1.tmx",
+    "activeFile": "Map3.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -27,54 +27,60 @@
         },
         "Map1.tmx": {
             "expandedObjectLayers": [
-                9,
                 3,
                 12,
-                7
+                7,
+                9
             ],
-            "scale": 1.2252,
-            "selectedLayer": 5,
+            "scale": 0.6135,
+            "selectedLayer": 9,
             "viewCenter": {
-                "x": 1517.3032974208293,
-                "y": 561.5409729023831
+                "x": 1130.39934800326,
+                "y": 466.99266503667485
             }
         },
         "Map2.tmx": {
             "expandedObjectLayers": [
-                5,
                 3,
                 4,
-                6,
-                7
+                5,
+                7,
+                6
             ],
-            "scale": 2.0965,
-            "selectedLayer": 5,
+            "scale": 0.3945,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 720.009539709039,
-                "y": 399.9523014548057
+                "x": 893.5361216730037,
+                "y": -44.35994930291508
             }
         },
         "Map3.tmx": {
             "expandedObjectLayers": [
-                8,
                 5,
+                7,
                 6,
                 9,
-                7
+                8
             ],
-            "scale": 2.768,
+            "scale": 0.7521,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 250.1806358381503,
-                "y": 455.38294797687865
+                "x": 459.3804015423481,
+                "y": 372.95572397287594
             }
         },
         "Map4.tmx": {
-            "scale": 2.6698958333333334,
-            "selectedLayer": 0,
+            "expandedObjectLayers": [
+                4,
+                5,
+                7,
+                9
+            ],
+            "scale": 1.2083,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 240.08427295072372,
-                "y": 159.93133315126212
+                "x": 520.1522800628984,
+                "y": 789.9528262848632
             }
         },
         "knight.tsx": {
@@ -105,18 +111,20 @@
         "Map1.tmx",
         "world_tileset.tsx",
         "platforms.tsx",
-        "Map2.tmx"
+        "Map2.tmx",
+        "Map3.tmx"
     ],
     "project": "Final.tiled-project",
     "recentFiles": [
-        "Map2.tmx",
-        "platforms.tsx",
-        "world_tileset.tsx",
         "Map1.tmx",
+        "world_tileset.tsx",
+        "platforms.tsx",
+        "Map2.tmx",
+        "Map3.tmx",
         "/Users/dmitrymcdonald/Desktop/Final/Maps/Map1.tmx",
         "knight.tsx"
     ],
-    "resizeMap.removeObjects": false,
+    "resizeMap.removeObjects": true,
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
         "height": 16,

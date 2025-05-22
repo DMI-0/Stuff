@@ -30,7 +30,7 @@ COLOR = random.choice([WHITE, YELLOW])
 FPS = 60
 resets = 0
 
-GRAVITY = 3
+GRAVITY = 2
 
 
 # LAYOUT =[

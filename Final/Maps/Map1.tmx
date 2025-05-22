@@ -418,7 +418,7 @@
   <object id="75" name="Col" type="Wall" x="1713.91" y="609.547" width="12.9827" height="1.81818"/>
  </objectgroup>
  <objectgroup id="9" name="Death_Zone">
-  <object id="24" name="death" type="death" x="-1.15897" y="799.296" width="2400.71" height="160.666"/>
+  <object id="24" name="death" type="death" x="-1.15897" y="947.625" width="2400.71" height="12.3367"/>
  </objectgroup>
  <objectgroup id="12" name="enemy">
   <object id="35" name="Enemy" type="enemy" x="114.844" y="413.681">

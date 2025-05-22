@@ -115,7 +115,7 @@ class Player(pg.sprite.Sprite):
                 self.current_frame = (self.current_frame + 1) % len(self.jump)
                 self.image = self.jump[self.current_frame]
                 self.last = self.now
-            self.vy = -60
+            self.vy = -50
         if not keys[pg.K_SPACE] and self.HP == True:
             self.jumping = False
 
@@ -123,7 +123,7 @@ class Player(pg.sprite.Sprite):
             self.jumping = True
             self.landed = False
 
-            self.vy = -60
+            self.vy = -50
         if not keys[pg.K_w] and self.HP == True:
             self.jumping = False
 
@@ -131,7 +131,7 @@ class Player(pg.sprite.Sprite):
             self.jumping = True
             self.landed = False
 
-            self.vy = -60
+            self.vy = -50
         if not keys[pg.K_UP] and self.HP == True:
             self.jumping = False
 
@@ -146,6 +146,8 @@ class Player(pg.sprite.Sprite):
 
         self.rect.x += self.vx
         self.rect.y += self.vy
+        # print(self.rect.y)
+        self.collide_with_wall('x')
         self.collide_with_wall('y')
         self.collide_with_obj()
         self.collide_with_death('y')
@@ -177,6 +179,15 @@ class Player(pg.sprite.Sprite):
                     self.last = self.now
 
     def collide_with_wall(self, dir):
+        if dir == 'x':
+            hits = pg.sprite.spritecollide(self, self.game.stop_group, False)
+            if hits:
+                if self.vx > 0:  
+                    self.rect.right = hits[0].rect.left
+                elif self.vx < 0:  
+                    self.rect.left = hits[0].rect.right
+   
+   
         if dir == 'y':
             hits = pg.sprite.spritecollide(self, self.game.wall_group, False)
             if hits:
@@ -203,6 +214,7 @@ class Player(pg.sprite.Sprite):
                 elif self.vx < 0:  
                     self.rect.left = hits[0].rect.right
                     self.HP = False
+      
         elif dir == 'y':
             hits = pg.sprite.spritecollide(self, self.game.death_zone, False)
             if hits:
@@ -418,35 +430,45 @@ class Reverse_Enemy(pg.sprite.Sprite):
         self.HP = 2
 
     def update(self):
-        self.move_left = self.x - self.range
-        self.move_right = self.x 
-        self.rect.x += -self.velo
-        print(f' this is the left: {self.move_left} and this is the right: {self.move_right} and this is the x: {self.rect.x}')
-        if self.rect.x <= self.move_right:
-            self.run = 1 
-            self.velo = -2
+        self.move_right = self.x        
+        self.move_left = self.x + self.range  
+
+        
+        self.rect.x += self.velo
+
+       
+        if self.rect.x >= self.move_left:
+            self.run = -1
+            self.velo = -2  
+        elif self.rect.x <= self.move_right:
+            self.run = 1
+            self.velo = 2   
+
+        
         self.now = pg.time.get_ticks()
-        if self.now - self.last > self.delay and self.velo == 2:
+        if self.now - self.last > self.delay and self.velo == -2:
             self.current_frame = (self.current_frame +1) % len(self.right)
             self.image = self.right[self.current_frame]
             self.last = self.now
-        if self.rect.x >= self.move_left:
-            self.run = -1
-            self.velo = 2
         self.now = pg.time.get_ticks()
-        if self.now - self.last > self.delay and self.velo == -2:
+        if self.now - self.last > self.delay and self.velo == 2:
             self.current_frame = (self.current_frame +1) % len(self.left)
             self.image = self.left[self.current_frame]
             self.last = self.now
+
+        
         self.rect.x += self.vx
 
+        # Apply gravity and vertical physics
         self.vy += GRAVITY
-        if self.vy > 10: # and self.rect.y != 550:
-            self.vy = 10         # set terminal velocity
-        self.collide_with_wall('x')
+        if self.vy > 10:
+            self.vy = 10  
 
+        self.collide_with_wall('x')
         self.rect.y += self.vy
         self.collide_with_wall('y')
+
+
 
     def collide_with_wall(self, dir):
         if dir == 'x':
